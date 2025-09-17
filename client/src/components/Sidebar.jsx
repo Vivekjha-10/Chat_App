@@ -14,10 +14,12 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
           <img src={assets.logo} alt="logo" className='max-w-40' />
 
           <div className='relative py-2 group'>
-            <img src={assets.menu_icon} alt="menu" className='max-w-40 cursor-pointer' />
+            <img src={assets.menu_icon} alt="menu" className='max-w-5 cursor-pointer' />
             <div className='absolute top-full right-0 z-20 w-32 rounded-md
                bg-[@282142] border border-gray-600 text-gray-100 hidden group-hover:block'>
-              <p onClick={() => navigate('/profile')} className='cursor-pointer text-sm'>Edit Profile</p>
+              <p onClick={() => navigate('/profile')} className='cursor-pointer text-sm'>
+                Edit Profile
+              </p>
               <hr className='my-2 border-t border-gray-500' />
               <p className='cursor-pointer text-sm'>Logout</p>
             </div>
@@ -34,7 +36,7 @@ const Sidebar = ({ selectedUser, setSelectedUser }) => {
 
       <div className='flex flex-col'>
         {userDummyData.map((user, index) => (
-          <div onClick={() => { setSelectedUser(user)}}
+          <div onClick={() => { setSelectedUser(user) }}
             key={index} className={`relative flex items-center gap-2 p-2 pl-4 rounded
             cursor-pointer max-sm:text-sm ${selectedUser?._id === user._id && 'bg-[#282142]/50'}`}>
             <img src={user?.profilePic || assets.avatar_icon} alt=""
