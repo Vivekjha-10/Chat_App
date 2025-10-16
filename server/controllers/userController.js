@@ -4,13 +4,12 @@ import bcrypt from "bcryptjs";
 import cloudinary from "../lib/cloudinary.js";
 
 
-
 // Signup a new user
 export const signup = async (req, res) => {
     const { fullName, email, password, bio } = req.body;
 
     try {
-        if (!fullName || email || password || bio) {
+        if (!fullName || !email || !password || !bio) {
             return res.json({ success: false, message: "Missing Details" })
         }
 
@@ -64,7 +63,6 @@ export const checkAuth = (req, res) => {
 }
 
 // Controller to update user profile details
-
 export const updateProfile = async (req, res) => {
     try {
         const { profilecPic, bio, fullName } = res.body;
