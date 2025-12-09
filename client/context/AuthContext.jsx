@@ -66,7 +66,8 @@ export const AuthProvider = ({ children }) => {
     //Udate profile function to handle user profile updates
     const updateProfile = async (body) => {
         try {
-            const { data } = await axios.put("/api/auth/upate-profile", body);
+            const { data } = await axios.put("/api/auth/update-profile", body);
+
             if (data.success) {
                 setAuthUser(data.user);
                 toast.success("profile updated successfully")
