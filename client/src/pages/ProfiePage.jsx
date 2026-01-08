@@ -1,19 +1,32 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import assets from '../assets/assets';
+import { AuthContext } from '../../context/AuthContext';
 
 const ProfiePage = () => {
 
+  const { authUser, updateProfile } = useContext(AuthContext);
+
   const [selectedImg, setSelectedImg] = useState(null);
-
   const navigete = useNavigate();
-
-  const [name, setName] = useState("Martin johnson")
-  const [bio, setBio] = useState("Hi Everyone, I am Using QuickChat")
+  const [name, setName] = useState(authUser.fullName)
+  const [bio, setBio] = useState(authUser.bio)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    navigete('/')
+    if (!selectedImg) {
+      await updateProfile({ fullName: name, bio });
+      navigete('/');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(selectedImg);
+    reader.onload = async ()=> {
+      const base64Image = reader.result;
+      await updateProfile({profilePic: base64Image, fullName: name, bio})
+      navigete('/');
+    }
   }
 
   return (
@@ -32,19 +45,19 @@ const ProfiePage = () => {
           </label>
 
           <input onChange={(e) => setName(e.target.value)} value={name}
-           type="text" required placeholder='Your name' className='p-2 border border-gray-500
+            type="text" required placeholder='Your name' className='p-2 border border-gray-500
            rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500' />
 
-           <textarea onChange={(e) => setBio(e.target.value)} value={bio}
-            placeholder='Write profile bio' required  className='p-2 border border-gray-500
+          <textarea onChange={(e) => setBio(e.target.value)} value={bio}
+            placeholder='Write profile bio' required className='p-2 border border-gray-500
            rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500' rows={4}></textarea>
 
-           <button type='submit' className='bg-gradient-to-r from-purple-400
+          <button type='submit' className='bg-gradient-to-r from-purple-400
             to-violet-600 text-white p-2 rounded-full text-lg cursor-pointer'>Save</button>
         </form >
-        
-          <img className='max-w-44 aspect-square rounded-full mx-10 max-sm:mt-10'
-           src={assets.logo_icon} alt="" />
+
+        <img className={`max-w-44 aspect-square rounded-full mx-10 max-sm:mt-1 `}
+          src={assets.logo_icon} alt="" />
       </div>
     </div>
   )
